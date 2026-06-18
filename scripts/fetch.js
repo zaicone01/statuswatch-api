@@ -1,19 +1,12 @@
 'use strict';
 
 const https = require('https');
+const http  = require('http');
 const fs    = require('fs');
 const path  = require('path');
 
-// ─── LISTA DE SERVICIOS ───────────────────────────────────────────────────────
-// Agregá o quitá servicios acá sin tocar la extensión.
-// Tipos:
-//   statuspage  → API Atlassian statuspage (/api/v2/summary.json)
-//   slack       → formato propio de Slack
 const SERVICES = [
   // ── CLOUD ────────────────────────────────────────────────────────────────
-  { id:'aws',          name:'Amazon AWS',          cat:'Cloud',      type:'statuspage', url:'https://status.aws.amazon.com/api/v2/summary.json',                     statusPageUrl:'https://status.aws.amazon.com' },
-  { id:'google',       name:'Google Cloud',        cat:'Cloud',      type:'statuspage', url:'https://status.cloud.google.com/api/v2/summary.json',                   statusPageUrl:'https://status.cloud.google.com' },
-  { id:'azure',        name:'Microsoft Azure',     cat:'Cloud',      type:'statuspage', url:'https://status.azure.com/api/v2/summary.json',                          statusPageUrl:'https://status.azure.com' },
   { id:'cloudflare',   name:'Cloudflare',          cat:'Cloud',      type:'statuspage', url:'https://www.cloudflarestatus.com/api/v2/summary.json',                   statusPageUrl:'https://www.cloudflarestatus.com' },
   { id:'digitalocean', name:'DigitalOcean',        cat:'Cloud',      type:'statuspage', url:'https://status.digitalocean.com/api/v2/summary.json',                   statusPageUrl:'https://status.digitalocean.com' },
   { id:'linode',       name:'Akamai / Linode',     cat:'Cloud',      type:'statuspage', url:'https://status.linode.com/api/v2/summary.json',                         statusPageUrl:'https://status.linode.com' },
@@ -74,15 +67,29 @@ const SERVICES = [
   // ── GAMING ───────────────────────────────────────────────────────────────
   { id:'epicgames',    name:'Epic Games',          cat:'Gaming',     type:'statuspage', url:'https://status.epicgames.com/api/v2/summary.json',                      statusPageUrl:'https://status.epicgames.com' },
   { id:'roblox',       name:'Roblox',              cat:'Gaming',     type:'statuspage', url:'https://status.roblox.com/api/v2/summary.json',                         statusPageUrl:'https://status.roblox.com' },
-  { id:'ea',           name:'EA / Origin',         cat:'Gaming',     type:'statuspage', url:'https://status.ea.com/api/v2/summary.json',                             statusPageUrl:'https://status.ea.com' },
   // ── E-COMMERCE ───────────────────────────────────────────────────────────
   { id:'shopify',      name:'Shopify',             cat:'E-com',      type:'statuspage', url:'https://www.shopifystatus.com/api/v2/summary.json',                     statusPageUrl:'https://www.shopifystatus.com' },
 ];
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
-function fetchUrl(url) {
+
+// fetchUrl con seguimiento de redirects (hasta 5 saltos)
+function fetchUrl(url, redirectsLeft) {
+  if (redirectsLeft === undefined) redirectsLeft = 5;
   return new Promise((resolve, reject) => {
-    const req = https.get(url, { headers: { 'Accept': 'application/json', 'User-Agent': 'statuswatch-api/1.0' }, timeout: 8000 }, res => {
+    const lib = url.startsWith('https') ? https : http;
+    const req = lib.get(url, {
+      headers: { 'Accept': 'application/json', 'User-Agent': 'statuswatch-api/1.0' },
+      timeout: 8000
+    }, res => {
+      // Seguir redirect automáticamente
+      if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location && redirectsLeft > 0) {
+        res.resume();
+        const next = res.headers.location.startsWith('http')
+          ? res.headers.location
+          : new URL(res.headers.location, url).href;
+        return resolve(fetchUrl(next, redirectsLeft - 1));
+      }
       if (res.statusCode !== 200) { res.resume(); return reject(new Error(`HTTP ${res.statusCode}`)); }
       let body = '';
       res.on('data', chunk => body += chunk);
@@ -134,7 +141,6 @@ async function fetchService(svc) {
         statusPageUrl: svc.statusPageUrl, checkedAt: Date.now(), error: null };
     }
 
-    // Standard statuspage.io format
     const rawDesc = (data.status && data.status.description) || 'All Systems Operational';
     const rawInc  = Array.isArray(data.incidents) ? data.incidents : [];
     return {
@@ -164,7 +170,6 @@ async function fetchService(svc) {
 (async () => {
   console.log(`Fetching ${SERVICES.length} services...`);
 
-  // Fetch in batches of 10 to avoid hammering
   const BATCH = 10;
   const results = [];
   for (let i = 0; i < SERVICES.length; i += BATCH) {
@@ -177,9 +182,7 @@ async function fetchService(svc) {
   const output = {
     updatedAt:    new Date().toISOString(),
     serviceCount: results.length,
-    // Services list (id, name, cat) so extension can render even with stale cache
     services: SERVICES.map(s => ({ id: s.id, name: s.name, cat: s.cat, statusPageUrl: s.statusPageUrl })),
-    // Status keyed by id
     statuses: Object.fromEntries(results.map(r => [r.id, r])),
   };
 
@@ -187,6 +190,11 @@ async function fetchService(svc) {
   fs.writeFileSync(outPath, JSON.stringify(output));
   console.log(`Written ${outPath} — ${results.length} services`);
 
-  // Log any errors
-  results.filter(r => r.error).forEach(r => console.warn(`  WARN ${r.id}: ${r.error}`));
+  const errors = results.filter(r => r.error);
+  if (errors.length) {
+    console.log(`\n${errors.length} services with errors:`);
+    errors.forEach(r => console.warn(`  WARN ${r.id}: ${r.error}`));
+  } else {
+    console.log('All services OK!');
+  }
 })();
