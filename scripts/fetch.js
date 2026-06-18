@@ -111,8 +111,14 @@ const SERVICES = [
   { id:'mixpanel',     name:'Mixpanel',            cat:'Analytics',  type:'statuspage', url:'https://status.mixpanel.com/api/v2/summary.json',                    statusPageUrl:'https://status.mixpanel.com' },
   // ── GAMING ───────────────────────────────────────────────────────────────
   { id:'epicgames',    name:'Epic Games',          cat:'Gaming',     type:'statuspage', url:'https://status.epicgames.com/api/v2/summary.json',                   statusPageUrl:'https://status.epicgames.com' },
-  // ── VIDEO ────────────────────────────────────────────────────────────────
+  { id:'hypixel',      name:'Hypixel',             cat:'Gaming',     type:'statuspage', url:'https://status.hypixel.net/api/v2/summary.json',                     statusPageUrl:'https://status.hypixel.net' },
+  // ── STREAMING ────────────────────────────────────────────────────────────
   { id:'vimeo',        name:'Vimeo',               cat:'Streaming',  type:'statuspage', url:'https://status.vimeo.com/api/v2/summary.json',                       statusPageUrl:'https://status.vimeo.com' },
+  { id:'plex',         name:'Plex',                cat:'Streaming',  type:'statuspage', url:'https://status.plex.tv/api/v2/summary.json',                         statusPageUrl:'https://status.plex.tv' },
+  { id:'dailymotion',  name:'Dailymotion',         cat:'Streaming',  type:'statuspage', url:'https://status.dailymotion.com/api/v2/summary.json',                 statusPageUrl:'https://status.dailymotion.com' },
+  { id:'riverside',    name:'Riverside',           cat:'Streaming',  type:'statuspage', url:'https://status.riverside.fm/api/v2/summary.json',                   statusPageUrl:'https://status.riverside.fm' },
+  { id:'streamyard',   name:'StreamYard',          cat:'Streaming',  type:'statuspage', url:'https://status.streamyard.com/api/v2/summary.json',                  statusPageUrl:'https://status.streamyard.com' },
+  { id:'api_video',    name:'api.video',           cat:'Streaming',  type:'statuspage', url:'https://status.api.video/api/v2/summary.json',                       statusPageUrl:'https://status.api.video' },
   // ── E-COMMERCE ───────────────────────────────────────────────────────────
   { id:'shopify',      name:'Shopify',             cat:'E-com',      type:'statuspage', url:'https://www.shopifystatus.com/api/v2/summary.json',                  statusPageUrl:'https://www.shopifystatus.com' },
   { id:'squarespace',  name:'Squarespace',         cat:'E-com',      type:'statuspage', url:'https://status.squarespace.com/api/v2/summary.json',                 statusPageUrl:'https://status.squarespace.com' },
