@@ -10,10 +10,11 @@ const SERVICES = [
   { id:'cloudflare',   name:'Cloudflare',          cat:'Cloud',      type:'statuspage', url:'https://www.cloudflarestatus.com/api/v2/summary.json',                statusPageUrl:'https://www.cloudflarestatus.com' },
   { id:'digitalocean', name:'DigitalOcean',        cat:'Cloud',      type:'statuspage', url:'https://status.digitalocean.com/api/v2/summary.json',                statusPageUrl:'https://status.digitalocean.com' },
   { id:'linode',       name:'Akamai / Linode',     cat:'Cloud',      type:'statuspage', url:'https://status.linode.com/api/v2/summary.json',                      statusPageUrl:'https://status.linode.com' },
-  { id:'fastly',       name:'Fastly',              cat:'Cloud',      type:'statuspage', url:'https://status.fastly.com/api/v2/summary.json',                      statusPageUrl:'https://status.fastly.com' },
   { id:'fly_io',       name:'Fly.io',              cat:'Cloud',      type:'statuspage', url:'https://status.flyio.net/api/v2/summary.json',                       statusPageUrl:'https://status.flyio.net' },
   { id:'scaleway',     name:'Scaleway',            cat:'Cloud',      type:'statuspage', url:'https://status.scaleway.com/api/v2/summary.json',                    statusPageUrl:'https://status.scaleway.com' },
   { id:'bunny_cdn',    name:'Bunny CDN',           cat:'Cloud',      type:'statuspage', url:'https://status.bunny.net/api/v2/summary.json',                       statusPageUrl:'https://status.bunny.net' },
+  { id:'upcloud',      name:'UpCloud',             cat:'Cloud',      type:'statuspage', url:'https://status.upcloud.com/api/v2/summary.json',                     statusPageUrl:'https://status.upcloud.com' },
+  { id:'wasabi',       name:'Wasabi',              cat:'Cloud',      type:'statuspage', url:'https://status.wasabi.com/api/v2/summary.json',                      statusPageUrl:'https://status.wasabi.com' },
   // ── CHAT ─────────────────────────────────────────────────────────────────
   { id:'slack',        name:'Slack',               cat:'Chat',       type:'slack',      url:'https://status.slack.com/api/v2.0.0/current',                        statusPageUrl:'https://status.slack.com' },
   { id:'zoom',         name:'Zoom',                cat:'Chat',       type:'statuspage', url:'https://status.zoom.us/api/v2/summary.json',                         statusPageUrl:'https://status.zoom.us' },
@@ -22,12 +23,9 @@ const SERVICES = [
   // ── SOCIAL ───────────────────────────────────────────────────────────────
   { id:'reddit',       name:'Reddit',              cat:'Social',     type:'statuspage', url:'https://www.redditstatus.com/api/v2/summary.json',                   statusPageUrl:'https://www.redditstatus.com' },
   { id:'twitch',       name:'Twitch',              cat:'Social',     type:'statuspage', url:'https://status.twitch.tv/api/v2/summary.json',                       statusPageUrl:'https://status.twitch.tv' },
-  // ── STREAMING ────────────────────────────────────────────────────────────
-  { id:'spotify',      name:'Spotify',             cat:'Streaming',  type:'statuspage', url:'https://www.spotifystatus.com/api/v2/summary.json',                  statusPageUrl:'https://www.spotifystatus.com' },
   // ── IA ───────────────────────────────────────────────────────────────────
   { id:'openai',       name:'OpenAI / ChatGPT',    cat:'IA',         type:'statuspage', url:'https://status.openai.com/api/v2/summary.json',                      statusPageUrl:'https://status.openai.com' },
   { id:'anthropic',    name:'Anthropic / Claude',  cat:'IA',         type:'statuspage', url:'https://status.anthropic.com/api/v2/summary.json',                   statusPageUrl:'https://status.anthropic.com' },
-  { id:'huggingface',  name:'Hugging Face',        cat:'IA',         type:'statuspage', url:'https://status.huggingface.co/api/v2/summary.json',                  statusPageUrl:'https://status.huggingface.co' },
   { id:'replicate',    name:'Replicate',           cat:'IA',         type:'statuspage', url:'https://www.replicatestatus.com/api/v2/summary.json',                statusPageUrl:'https://www.replicatestatus.com' },
   { id:'cohere',       name:'Cohere',              cat:'IA',         type:'statuspage', url:'https://status.cohere.com/api/v2/summary.json',                      statusPageUrl:'https://status.cohere.com' },
   { id:'groq',         name:'Groq',                cat:'IA',         type:'statuspage', url:'https://groqstatus.com/api/v2/summary.json',                         statusPageUrl:'https://groqstatus.com' },
@@ -62,6 +60,17 @@ const SERVICES = [
   { id:'ably',         name:'Ably',                cat:'Dev',        type:'statuspage', url:'https://status.ably.com/api/v2/summary.json',                        statusPageUrl:'https://status.ably.com' },
   { id:'liveblocks',   name:'Liveblocks',          cat:'Dev',        type:'statuspage', url:'https://liveblocks.statuspage.io/api/v2/summary.json',               statusPageUrl:'https://liveblocks.statuspage.io' },
   { id:'cloudinary',   name:'Cloudinary',          cat:'Dev',        type:'statuspage', url:'https://status.cloudinary.com/api/v2/summary.json',                  statusPageUrl:'https://status.cloudinary.com' },
+  { id:'launchdarkly', name:'LaunchDarkly',        cat:'Dev',        type:'statuspage', url:'https://status.launchdarkly.com/api/v2/summary.json',                statusPageUrl:'https://status.launchdarkly.com' },
+  { id:'split_io',     name:'Split.io',            cat:'Dev',        type:'statuspage', url:'https://status.split.io/api/v2/summary.json',                        statusPageUrl:'https://status.split.io' },
+  { id:'rollbar',      name:'Rollbar',             cat:'Dev',        type:'statuspage', url:'https://status.rollbar.com/api/v2/summary.json',                     statusPageUrl:'https://status.rollbar.com' },
+  { id:'bugsnag',      name:'Bugsnag',             cat:'Dev',        type:'statuspage', url:'https://status.bugsnag.com/api/v2/summary.json',                     statusPageUrl:'https://status.bugsnag.com' },
+  { id:'logrocket',    name:'LogRocket',           cat:'Dev',        type:'statuspage', url:'https://status.logrocket.com/api/v2/summary.json',                   statusPageUrl:'https://status.logrocket.com' },
+  { id:'honeycomb',    name:'Honeycomb',           cat:'Dev',        type:'statuspage', url:'https://status.honeycomb.io/api/v2/summary.json',                    statusPageUrl:'https://status.honeycomb.io' },
+  { id:'grafana_cloud',name:'Grafana Cloud',       cat:'Dev',        type:'statuspage', url:'https://status.grafana.com/api/v2/summary.json',                     statusPageUrl:'https://status.grafana.com' },
+  { id:'opsgenie',     name:'Opsgenie',            cat:'Dev',        type:'statuspage', url:'https://status.atlassian.com/api/v2/summary.json',                   statusPageUrl:'https://status.atlassian.com' },
+  { id:'mux',          name:'Mux',                 cat:'Dev',        type:'statuspage', url:'https://status.mux.com/api/v2/summary.json',                         statusPageUrl:'https://status.mux.com' },
+  { id:'mapbox',       name:'Mapbox',              cat:'Dev',        type:'statuspage', url:'https://status.mapbox.com/api/v2/summary.json',                      statusPageUrl:'https://status.mapbox.com' },
+  { id:'clerk',        name:'Clerk',               cat:'Dev',        type:'statuspage', url:'https://status.clerk.com/api/v2/summary.json',                       statusPageUrl:'https://status.clerk.com' },
   // ── PRODUCTIVIDAD ────────────────────────────────────────────────────────
   { id:'notion',       name:'Notion',              cat:'Productiv.', type:'statuspage', url:'https://www.notion-status.com/api/v2/summary.json',                  statusPageUrl:'https://status.notion.so' },
   { id:'figma',        name:'Figma',               cat:'Design',     type:'statuspage', url:'https://status.figma.com/api/v2/summary.json',                       statusPageUrl:'https://status.figma.com' },
@@ -77,10 +86,19 @@ const SERVICES = [
   { id:'typeform',     name:'Typeform',            cat:'Productiv.', type:'statuspage', url:'https://status.typeform.com/api/v2/summary.json',                    statusPageUrl:'https://status.typeform.com' },
   { id:'webflow',      name:'Webflow',             cat:'Productiv.', type:'statuspage', url:'https://status.webflow.com/api/v2/summary.json',                     statusPageUrl:'https://status.webflow.com' },
   { id:'helpscout',    name:'Help Scout',          cat:'Productiv.', type:'statuspage', url:'https://status.helpscout.net/api/v2/summary.json',                   statusPageUrl:'https://status.helpscout.net' },
+  { id:'zapier',       name:'Zapier',              cat:'Productiv.', type:'statuspage', url:'https://status.zapier.com/api/v2/summary.json',                      statusPageUrl:'https://status.zapier.com' },
+  { id:'make',         name:'Make',                cat:'Productiv.', type:'statuspage', url:'https://status.make.com/api/v2/summary.json',                        statusPageUrl:'https://status.make.com' },
+  { id:'bubble',       name:'Bubble',              cat:'Productiv.', type:'statuspage', url:'https://status.bubble.io/api/v2/summary.json',                       statusPageUrl:'https://status.bubble.io' },
+  { id:'gorgias',      name:'Gorgias',             cat:'Productiv.', type:'statuspage', url:'https://status.gorgias.com/api/v2/summary.json',                     statusPageUrl:'https://status.gorgias.com' },
   // ── EMAIL ────────────────────────────────────────────────────────────────
   { id:'sendgrid',     name:'SendGrid',            cat:'Email',      type:'statuspage', url:'https://status.sendgrid.com/api/v2/summary.json',                    statusPageUrl:'https://status.sendgrid.com' },
   { id:'braze',        name:'Braze',               cat:'Email',      type:'statuspage', url:'https://status.braze.com/api/v2/summary.json',                       statusPageUrl:'https://status.braze.com' },
   { id:'iterable',     name:'Iterable',            cat:'Email',      type:'statuspage', url:'https://status.iterable.com/api/v2/summary.json',                    statusPageUrl:'https://status.iterable.com' },
+  { id:'sparkpost',    name:'SparkPost',           cat:'Email',      type:'statuspage', url:'https://status.sparkpost.com/api/v2/summary.json',                   statusPageUrl:'https://status.sparkpost.com' },
+  { id:'mailgun',      name:'Mailgun',             cat:'Email',      type:'statuspage', url:'https://status.mailgun.com/api/v2/summary.json',                     statusPageUrl:'https://status.mailgun.com' },
+  { id:'messagebird',  name:'MessageBird',         cat:'Email',      type:'statuspage', url:'https://status.messagebird.com/api/v2/summary.json',                 statusPageUrl:'https://status.messagebird.com' },
+  { id:'courier',      name:'Courier',             cat:'Email',      type:'statuspage', url:'https://status.courier.com/api/v2/summary.json',                     statusPageUrl:'https://status.courier.com' },
+  { id:'loops',        name:'Loops',               cat:'Email',      type:'statuspage', url:'https://status.loops.so/api/v2/summary.json',                        statusPageUrl:'https://status.loops.so' },
   // ── PAGOS ────────────────────────────────────────────────────────────────
   { id:'wise',         name:'Wise',                cat:'Pagos',      type:'statuspage', url:'https://status.wise.com/api/v2/summary.json',                        statusPageUrl:'https://status.wise.com' },
   { id:'coinbase',     name:'Coinbase',            cat:'Pagos',      type:'statuspage', url:'https://status.coinbase.com/api/v2/summary.json',                    statusPageUrl:'https://status.coinbase.com' },
@@ -88,10 +106,13 @@ const SERVICES = [
   { id:'klarna',       name:'Klarna',              cat:'Pagos',      type:'statuspage', url:'https://status.klarna.com/api/v2/summary.json',                      statusPageUrl:'https://status.klarna.com' },
   { id:'chargebee',    name:'Chargebee',           cat:'Pagos',      type:'statuspage', url:'https://status.chargebee.com/api/v2/summary.json',                   statusPageUrl:'https://status.chargebee.com' },
   { id:'brex',         name:'Brex',                cat:'Pagos',      type:'statuspage', url:'https://status.brex.com/api/v2/summary.json',                        statusPageUrl:'https://status.brex.com' },
+  // ── ANALYTICS ────────────────────────────────────────────────────────────
   { id:'amplitude',    name:'Amplitude',           cat:'Analytics',  type:'statuspage', url:'https://status.amplitude.com/api/v2/summary.json',                   statusPageUrl:'https://status.amplitude.com' },
   { id:'mixpanel',     name:'Mixpanel',            cat:'Analytics',  type:'statuspage', url:'https://status.mixpanel.com/api/v2/summary.json',                    statusPageUrl:'https://status.mixpanel.com' },
   // ── GAMING ───────────────────────────────────────────────────────────────
   { id:'epicgames',    name:'Epic Games',          cat:'Gaming',     type:'statuspage', url:'https://status.epicgames.com/api/v2/summary.json',                   statusPageUrl:'https://status.epicgames.com' },
+  // ── VIDEO ────────────────────────────────────────────────────────────────
+  { id:'vimeo',        name:'Vimeo',               cat:'Streaming',  type:'statuspage', url:'https://status.vimeo.com/api/v2/summary.json',                       statusPageUrl:'https://status.vimeo.com' },
   // ── E-COMMERCE ───────────────────────────────────────────────────────────
   { id:'shopify',      name:'Shopify',             cat:'E-com',      type:'statuspage', url:'https://www.shopifystatus.com/api/v2/summary.json',                  statusPageUrl:'https://www.shopifystatus.com' },
   { id:'squarespace',  name:'Squarespace',         cat:'E-com',      type:'statuspage', url:'https://status.squarespace.com/api/v2/summary.json',                 statusPageUrl:'https://status.squarespace.com' },
@@ -99,7 +120,6 @@ const SERVICES = [
   { id:'xero',         name:'Xero',                cat:'E-com',      type:'statuspage', url:'https://status.xero.com/api/v2/summary.json',                        statusPageUrl:'https://status.xero.com' },
 ];
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
 function fetchUrl(url, redirectsLeft) {
   if (redirectsLeft === undefined) redirectsLeft = 5;
   return new Promise((resolve, reject) => {
@@ -187,7 +207,6 @@ async function fetchService(svc) {
   }
 }
 
-// ─── MAIN ─────────────────────────────────────────────────────────────────────
 (async () => {
   console.log(`Fetching ${SERVICES.length} services...`);
   const BATCH = 10;
@@ -198,23 +217,16 @@ async function fetchService(svc) {
     settled.forEach(r => { if (r.status === 'fulfilled') results.push(r.value); });
     if (i + BATCH < SERVICES.length) await new Promise(r => setTimeout(r, 200));
   }
-
   const output = {
     updatedAt:    new Date().toISOString(),
     serviceCount: results.length,
     services: SERVICES.map(s => ({ id: s.id, name: s.name, cat: s.cat, statusPageUrl: s.statusPageUrl })),
     statuses: Object.fromEntries(results.map(r => [r.id, r])),
   };
-
   const outPath = path.join(__dirname, '..', 'docs', 'status.json');
   fs.writeFileSync(outPath, JSON.stringify(output));
   console.log(`Written ${outPath} — ${results.length} services`);
-
   const errors = results.filter(r => r.error);
-  if (errors.length) {
-    console.log(`\n${errors.length} errors:`);
-    errors.forEach(r => console.warn(`  WARN ${r.id}: ${r.error}`));
-  } else {
-    console.log('All services OK!');
-  }
+  if (errors.length) errors.forEach(r => console.warn(`  WARN ${r.id}: ${r.error}`));
+  else console.log('All services OK!');
 })();
